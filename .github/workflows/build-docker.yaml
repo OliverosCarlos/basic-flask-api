@@ -11,4 +11,6 @@ jobs:
       - name: build image
         run: docker build ./ -t oliveroscarlos/basic-flask-api:latest
       - name: push image to docker hub
-        run: docker push oliveroscarlos/basic-flask-api:latest
+        run: |
+          docker login -u oliveroscarlos -p ${{ secrets.DOCKER_HUB_TOKEN}}
+          docker push oliveroscarlos/basic-flask-api:latest
