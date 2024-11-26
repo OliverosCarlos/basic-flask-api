@@ -1,16 +1,17 @@
 name: Terraform GKE Workflow
 
 on:
-  push:
-    branches:
-      - gcp-terraform
-    paths:
-      - terraform/**
-  pull_request:
-    branches:
-      - main  # Adjust to your main branch name
-    paths:
-      - terraform/**
+  [workflow_dispatch]
+  # push:
+  #   branches:
+  #     - gcp-terraform
+  #   paths:
+  #     - terraform/**
+  # pull_request:
+  #   branches:
+  #     - main  # Adjust to your main branch name
+  #   paths:
+  #     - terraform/**
 
 jobs:
   terraform:
@@ -39,7 +40,7 @@ jobs:
         uses: google-github-actions/setup-gcloud@v1
 
       - name: Authenticate gcloud
-        uses: google-github-actions/auth@v0
+        uses: google-github-actions/auth@v2
         with:
           credentials_json: ${{ secrets.GOOGLE_CREDENTIALS }}
 
