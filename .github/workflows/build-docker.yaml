@@ -1,0 +1,14 @@
+name: Build and Publish to Docker Hub
+on:
+  [workflow_dispatch]
+    
+jobs:
+  publish_images:
+    runs-on: ubuntu-latest
+    steps:
+      - name: checkout
+        uses: actions/checkout@4
+      - name: build image
+        run: docker build ../ -t oliveroscarlos/basic-flask-api:latest
+      - name: push image to docker hub
+        run: docker push oliveroscarlos/basic-flask-api:latest
