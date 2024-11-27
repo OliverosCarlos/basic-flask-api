@@ -33,6 +33,11 @@ spec:
         imagePullPolicy: Always
         ports:
         - containerPort: 5000
+      - name: redis
+        image: redis
+        imagePullPolicy: Always
+        ports:
+        - containerPort: 6379
   strategy:
     type: RollingUpdate
     rollingUpdate:
