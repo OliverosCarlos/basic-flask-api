@@ -1,4 +1,4 @@
-from flask import Flask, render_template
+from flask import Flask, render_template, request
 import redis
 
 app = Flask(__name__)
@@ -18,17 +18,21 @@ if connection :
      redis_cli.setnx('counter',0)
 else :
     print("Redis Unable to connect")
-    
-@app.route("/")
+
+@app.route('/', methods = ['GET', 'POST'])
 def hello():
-    redis_cli.incr('counter')
+    if request.method == 'POST':
+        redis_cli.incr('counter')
+        return "OK"
+    
+    if request.method == 'GET':
+    
+        data = {
+            'count': redis_cli.get('counter'),
+            'label': 'vez' if redis_cli.get('counter') == "1" else 'veces'
+        }
 
-    data = {
-        'count': redis_cli.get('counter'),
-        'label': 'vez' if redis_cli.get('counter') == "1" else 'veces'
-    }
-
-    return render_template('home.html', data=data)
+        return render_template('home.html', data=data)
 
 
 if __name__ == "__main__":
