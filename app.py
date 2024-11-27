@@ -24,7 +24,8 @@ def hello():
     redis_cli.incr('counter')
 
     data = {
-        'count': redis_cli.get('counter')
+        'count': redis_cli.get('counter'),
+        'label': 'vez' if redis_cli.get('counter') == "1" else 'veces'
     }
 
     return render_template('home.html', data=data)
