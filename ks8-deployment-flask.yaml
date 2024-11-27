@@ -9,7 +9,7 @@ spec:
     app: basic-flask-api
   ports:
   - port: 80
-    targetPort: 80
+    targetPort: 5000
 ---
 apiVersion: apps/v1
 kind: Deployment
@@ -30,3 +30,11 @@ spec:
       containers:
       - name: basic-flask-api
         image: oliveroscarlos/basic-flask-api:latest
+        imagePullPolicy: Always
+        ports:
+        - containerPort: 5000
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxSurge: 1
+      maxUnavailable: 1
