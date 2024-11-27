@@ -1,6 +1,9 @@
 name: Build and Publish to Docker Hub
 on:
-  [workflow_dispatch]
+  # [workflow_dispatch]
+  push:
+    branches:
+    - 'master'
     
 jobs:
   publish_images:
@@ -35,3 +38,4 @@ jobs:
           gcloud container clusters get-credentials gke-cluster-1 --region us-central1
           sed -i "s/GOOGLE_PROJECT/$PROJECT_ID/g" ks8-deployment-flask.yaml
           kubectl apply -f ks8-deployment-flask.yaml
+          kubectl rollout restart deployment/basic-flask-api
