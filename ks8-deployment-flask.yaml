@@ -29,7 +29,7 @@ spec:
     spec:
       containers:
       - name: basic-flask-api
-        image: oliveroscarlos/basic-flask-api:latest
+        image: oliveroscarlos/basic-flask-api:{{SHA}}
         imagePullPolicy: Always
         ports:
         - containerPort: 5000
