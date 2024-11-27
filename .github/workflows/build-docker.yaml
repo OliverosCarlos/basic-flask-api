@@ -12,13 +12,13 @@ jobs:
       - name: checkout
         uses: actions/checkout@v4
       - name: show tag
-        run: echo "${{github.repository}}:${{github.ref_name}}"
+        run: echo "${{github.repository}}:${{ github.sha }}"
       - name: build image
-        run: docker build ./ -t oliveroscarlos/basic-flask-api:latest
+        run: docker build ./ -t oliveroscarlos/basic-flask-api:${{ github.sha }}
       - name: push image to docker hub
         run: |
           docker login -u oliveroscarlos -p ${{ secrets.DOCKER_HUB_TOKEN}}
-          docker push oliveroscarlos/basic-flask-api:latest
+          docker push oliveroscarlos/basic-flask-api:${{ github.sha }}
 
       - name: install the gcloud cli
         uses: google-github-actions/setup-gcloud@v1
@@ -39,5 +39,6 @@ jobs:
         run: |
           gcloud container clusters get-credentials gke-cluster-1 --region us-central1
           sed -i "s/GOOGLE_PROJECT/$PROJECT_ID/g" ks8-deployment-flask.yaml
+          sed -i "s/{{SHA}}/${{ github.sha }}/g" ks8-deployment-flask.yaml
           kubectl apply -f ks8-deployment-flask.yaml
           kubectl rollout restart deployment/basic-flask-api
